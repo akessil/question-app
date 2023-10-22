@@ -1,7 +1,7 @@
 # This workflow will build a package using Maven and then publish it to GitHub packages when a release is created
 # For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
 
-name: Maven Package
+name: question App pipeline
 
 on:
   push:
@@ -30,16 +30,18 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-    - name: Get Version
-      uses: ./
-      id: getVersion
-  
-    - name: Build the docker image
-      run: docker build -t akessil/question-app:${{steps.getVersion.outputs.version}} .
-      
-    - name: login to docker hub
-      run: docker login --username akessil --password ${{secrets.DOCKER_TOKEN}}
-      
-    - name: push the new docker image to docker hub
-      run: docker push akessil/question-app:${{steps.getVersion.outputs.version}}
+    - name: Build and push docker image
+      id: buildDocker
+      uses: cloudposse/github-action-docker-build-push@main
+      with:
+          registry: hub.docker.com
+          organization: "${{ github.event.repository.owner.login }}"
+          repository: "${{ github.event.repository.name }}"
+          login: "${{ secrets.DOCKER_USERNAME }}"
+          password: "${{ secrets.DOCKER_TOKEN }}"
+          platforms: linux/amd64,linux/arm64
+
+  outputs:
+    image: ${{ steps.buildDocker.outputs.image }}
+    tag: ${{ steps.buildDocker.outputs.tag }}
     
