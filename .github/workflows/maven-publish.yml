@@ -38,7 +38,7 @@ jobs:
       run: docker build -t akessil/question-app:${{steps.pom-version.outputs.version}} .
       
     - name: login to docker hub
-      run: docker login --username akessil --password ${{secrets.docker_token}}
+      run: docker login --username akessil --password ${{secrets.DOCKER_TOKEN}}
       
     - name: push the new docker image to docker hub
       run: docker push akessil/question-app:${{steps.pom-version.outputs.version}}
