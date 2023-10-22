@@ -33,10 +33,7 @@ jobs:
     - uses: mr-smithers-excellent/docker-build-push@v6
       name: Build & push Docker image
       with:
-        image: akessil/question-app
-        tags: v1, latest
-        registry: hub.docker.com
-        dockerfile: Dockerfile
+        image: akessil/question-app:v1
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_TOKEN }}
     
