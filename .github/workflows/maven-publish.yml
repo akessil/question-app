@@ -34,7 +34,7 @@ jobs:
       name: Build & push Docker image
       with:
         image: akessil/question-app
-        tags: v1
+        tags: v2
         registry: docker.io
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_TOKEN }}

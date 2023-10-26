@@ -7,8 +7,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping(path="question-app")
+@RequestMapping(path="")
 public class HelloController {
+
+    @GetMapping("/")
+    public @ResponseBody String health() {
+        return String.format("OK");
+    }
 
     @GetMapping("/hello")
     public @ResponseBody String hello(@RequestParam(value = "name") String name) {
